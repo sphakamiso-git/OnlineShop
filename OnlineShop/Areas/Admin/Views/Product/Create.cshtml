@@ -1,11 +1,11 @@
-﻿@model OnlineShop.Models.ProductTypes
+﻿@model OnlineShop.Models.Product
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Create";
 }
 
 <br />
-<h2 class="text-info"> Product Type Detail</h2>
-<form asp-action="Details" method="post">
+<h2 class="text-info">Create Product</h2>
+<form asp-action="Create" method="post">
     <div class="p-4 rounded border">
         <div asp-validation-summary="ModelOnly" class="text-danger">
 
@@ -15,16 +15,14 @@
                 <label asp-for="ProductType"></label>
             </div>
             <div class="col-5">
-                <input asp-for="ProductType"  readonly="readonly" class="form-control" />
+                <input asp-for="ProductType" class="form-control" />
             </div>
             <span asp-validation-for="ProductType" class="text-danger"></span>
         </div>
 
         <div class="form-group">
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-            <a asp-action="Index" class="btn btn-success">Back to Index</a>
-            <!--<input type="submit" class="btn btn-success" value="Back to list" />-->
-
+            <input type="submit" class="btn btn-primary" value="Save" />
+            <a asp-action="Index" class="btn btn-success">Back to List</a>
         </div>
     </div>
 </form>

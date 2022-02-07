@@ -1,5 +1,5 @@
 ﻿@using OnlineShop.Models;
-@model IEnumerable<ProductTypes>
+@model IEnumerable<Product>
 @{
     ViewData["Title"] = "Index";
 }
@@ -8,10 +8,10 @@
 <br />
 <div class="row">
     <div class="col-6">
-        <h2 class="text-info">Product Type List</h2>
+        <h2 class="text-info">Product List</h2>
     </div>
     <div class="col-6 text-right">
-        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New Product Type</a>
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp;Add New Product</a>
     </div>
 </div>
 <br />
@@ -20,7 +20,16 @@
     <table class="table table-stripped border">
         <tr class="table-info">
             <th>
-                @Html.DisplayNameFor(expression: c => c.ProductType)
+                @Html.DisplayNameFor(expression: c => c.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(expression: c => c.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(expression: c => c.ProductColor)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(expression: c => c.ProductTypeId)
             </th>
             <th></th>
             <th></th>
@@ -29,7 +38,19 @@
         {
             <tr>
                 <td>
-                    @item.ProductType
+                    @item.Name
+                </td>
+                <td>
+                    @item.Price
+                </td> 
+                <td>
+                    @item.ProductColor
+                </td> 
+                <td>
+                    @item.IsAvailable
+                </td> 
+                <td>
+                    @item.ProductTypes.ProductType
                 </td>
                 <td>
                     <partial name="_ButtonPartial" model="@item.Id" />
