@@ -20,17 +20,21 @@
     <table class="table table-stripped border">
         <tr class="table-info">
             <th>
-                @Html.DisplayNameFor(expression: c => c.Name)
+                @Html.DisplayNameFor( c => c.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(expression: c => c.Price)
+                @Html.DisplayNameFor( c => c.Price)
             </th>
             <th>
-                @Html.DisplayNameFor(expression: c => c.ProductColor)
+                @Html.DisplayNameFor( c => c.ProductColor)
             </th> 
             <th>
-                @Html.DisplayNameFor(expression: c => c.ProductTypeId)
+                @Html.DisplayNameFor( c => c.ProductTypeId)
             </th>
+            <th>
+                @Html.DisplayNameFor( c => c.SpecialTagId)
+            </th>
+            <th></th>
             <th></th>
             <th></th>
         </tr>
@@ -51,6 +55,9 @@
                 </td> 
                 <td>
                     @item.ProductTypes.ProductType
+                </td>
+                <td>
+                    @item.SpecialTag.Name
                 </td>
                 <td>
                     <partial name="_ButtonPartial" model="@item.Id" />

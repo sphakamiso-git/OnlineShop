@@ -51,11 +51,37 @@ namespace OnlineShop.Areas.Admin.Controllers
                     await image.CopyToAsync(new FileStream(name, FileMode.Create));
                     product.Image = "Images/" + image.FileName;
                 }
+
+                if (image == null)
+                {
+                    product.Image = "Images/noimage.JPEG";
+                }
+
                 _db.products.Add(product);
                 await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
+            return View(product);
+        }
+
+        //Get : Edit Action Method
+        public IActionResult Edit(int? id)
+        {
+            ViewData["productTypeId"] = new SelectList(_db.ProductTypes.ToList(), "Id", "ProductType");
+            ViewData["TagId"] = new SelectList(_db.SpecialTags.ToList(), "Id", "Name");
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _db.products.Include(c => c.ProductTypes).Include(c => c.SpecialTag)
+                .FirstOrDefault(c => c.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
             return View(product);
         }
     }

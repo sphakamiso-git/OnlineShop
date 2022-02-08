@@ -25,6 +25,7 @@ namespace OnlineShop.Models
         public int ProductTypeId { get; set; }
         [ForeignKey("ProductTypeId")]
         public ProductTypes ProductTypes { get; set; }
+
         [Display(Name = "Special Tag")]
         public int SpecialTagId { get; set; }
         [ForeignKey("SpecialTagId")]
