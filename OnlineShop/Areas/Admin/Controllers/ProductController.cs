@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 using OnlineShop.Models;
@@ -32,10 +33,14 @@ namespace OnlineShop.Areas.Admin.Controllers
         //Get: Create
         public IActionResult Create()
         {
+            ViewData["productTypeId"] = new SelectList(_db.ProductTypes.ToList(), "Id", "ProductType");
+            ViewData["TagId"] = new SelectList(_db.SpecialTags.ToList(), "Id","Name");
             return View();
         }
 
         //Post: Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Product product, IFormFile image)
         {
             if (ModelState.IsValid)
