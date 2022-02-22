@@ -84,5 +84,48 @@ namespace OnlineShop.Areas.Admin.Controllers
             }
             return View(product);
         }
+
+        //POST Edit Method
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(Product product, IFormFile image)
+        {
+            if (ModelState.IsValid)
+            {
+                if (image != null)
+                {
+                    var name = Path.Combine(_he.WebRootPath + "/Images", Path.GetFileName(image.FileName));
+                    await image.CopyToAsync(new FileStream(name, FileMode.Create));
+                    product.Image = "Images/" + image.FileName;
+                }
+
+                if (image == null)
+                {
+                    product.Image = "Images/noimage.JPEG";
+                }
+                _db.products.Update(product);
+                await _db.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(product);  
+        }
+
+        //Get Details Action Method
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _db.products.Include(c => c.ProductTypes).Include(c => c.SpecialTag)
+               .FirstOrDefault(c => c.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
     }
 }
