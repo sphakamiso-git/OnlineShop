@@ -13,7 +13,10 @@ namespace OnlineShop.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        //[Range(1,200)]
+        //[DataType(DataType.Currency)]
+        //[DisplayFormat(DataFormatString = "{0:n2}", ApplyFormatInEditMode = true)]
+        public double Price { get; set; }
         public string Image { get; set; }
         [Display(Name="Product Color")]
         public string ProductColor { get; set; }

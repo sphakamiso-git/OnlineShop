@@ -30,6 +30,24 @@ namespace OnlineShop.Areas.Admin.Controllers
                 .Include( f => f.SpecialTag).ToList());
         }
 
+        //POST Index action Method
+        [HttpPost]
+        public IActionResult Index(double? lowAmount, double? largeAmount)
+        {
+            var products = _db.products.Include(c => c.ProductTypes)
+                .Include(c => c.SpecialTag)
+                .Where(c => c.Price >= lowAmount && c.Price <= largeAmount)
+                .ToList();
+
+            if (lowAmount == null || largeAmount == null)
+            {
+                products = _db.products.Include(c => c.ProductTypes).Include(c => c.SpecialTag).ToList();
+
+            }
+            
+            return View(products);
+        }
+
         //Get: Create
         public IActionResult Create()
         {
@@ -45,6 +63,14 @@ namespace OnlineShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                var searchProduct = _db.products.FirstOrDefault(c => c.Name == product.Name);
+                if(searchProduct != null)
+                {
+                    ViewBag.message = "This product already exists";
+                    ViewData["productTypeId"] = new SelectList(_db.ProductTypes.ToList(), "Id", "ProductType");
+                    ViewData["TagId"] = new SelectList(_db.SpecialTags.ToList(), "Id", "Name");
+                    return View(product);
+                }
                 if (image != null)
                 {
                     var name = Path.Combine(_he.WebRootPath + "/Images", Path.GetFileName(image.FileName));
@@ -126,6 +152,42 @@ namespace OnlineShop.Areas.Admin.Controllers
                 return NotFound();
             }
             return View(product);
+        }
+
+        //GET Delete
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _db.products.Include(c => c.ProductTypes).Include(c => c.SpecialTag)
+                .Where(c => c.Id == id).FirstOrDefault();
+            if (product == null)
+            {
+                return NotFound();
+            }
+            return View(product);
+        }
+
+        //POST Delete
+        [HttpPost]
+        [ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirm(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var product = _db.products.FirstOrDefault(c => c.Id == id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _db.products.Remove(product);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
