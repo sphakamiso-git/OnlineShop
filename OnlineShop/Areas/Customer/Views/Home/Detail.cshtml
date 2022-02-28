@@ -12,7 +12,7 @@
 
     List<Product> products = HttpContextAccessor.HttpContext.Session.Get<List<Product>>("products");
     Product product = null;
-    if (products == null)
+    if (products != null)
     {
         product = products.FirstOrDefault(c => c.Id == Model.Id);
     }

@@ -77,15 +77,54 @@ namespace OnlineShop.Controllers
             }
             products.Add(product);
             HttpContext.Session.Set("products", products);
-
-            return View(product);
+            return RedirectToAction(nameof(Index));
+            //return View(product);
         }
+
+        //GET Remove action methdo
+        [ActionName("Remove")]
+        public IActionResult RemoveToCart(int? id)
+        {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products != null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                    HttpContext.Session.Set("products", products);
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
 
         //Remove
         [HttpPost]
         public IActionResult Remove(int? id)
         {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products != null)
+            {
+                var product = products.FirstOrDefault(c => c.Id == id);
+                if (product != null)
+                {
+                    products.Remove(product);
+                    HttpContext.Session.Set("products", products);
+                }
+            }
+            return RedirectToAction(nameof(Index));
+        }
 
+        //GET produtc Cart action method
+        public IActionResult Cart()
+        {
+            List<Product> products = HttpContext.Session.Get<List<Product>>("products");
+            if (products == null)
+            {
+                products = new List<Product>();
+            }
+            return View(products);
         }
     }
 }
