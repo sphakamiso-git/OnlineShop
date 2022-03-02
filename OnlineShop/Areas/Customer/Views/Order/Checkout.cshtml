@@ -78,7 +78,7 @@
                 </div>
                 <div class="col-8">
                     <input asp-for="OrderDate" class="form-control" />
-                    <span asp-validation-for="OrderDate" class="text-danger"></span>
+                     <span asp-validation-for="OrderDate"  class="text-danger"></span>
                     @* <select asp-for="SpecialTagId" asp-items="ViewBag.TagId" class="form-control"></select>*@
 
                 </div>
@@ -125,5 +125,15 @@
 @section Scripts{
     @{
         await Html.RenderPartialAsync(partialViewName: "_ValidationScriptsPartial.cshtml");
+        <script>
+            $(document).ready(function () {
+                $("#OrderDate").datepicker({
+                    showAnim: "slide",
+                    changeMonth: true,
+                    changeYear: true
+                });
+            });
+        </script>
+
     }
 } 

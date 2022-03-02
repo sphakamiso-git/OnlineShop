@@ -1,14 +1,17 @@
 ﻿@using OnlineShop.Models
 
-@model List<Product>
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<Product>
+
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<br /><br />
+<br />
+<br />
 <div class="row">
     @foreach (var product in Model)
-     {
+    {
         <div class="col-4">
             <div class="card mb-4">
                 <div class="card-header">
@@ -27,5 +30,10 @@
                 </div>
             </div>
         </div>
-     }
+    }
+</div>
+<div>
+    @Html.PagedListPager(Model, c => Href("~/Customer/Home/Index?page=" + c),X.PagedList.Web.Common.PagedListRenderOptions.PageNumbersOnly)
+    @*<pager class="pager-container" list="@Model" options="@PagedListRenderOptions.TwitterBootstrapPager" asp-action="Index" asp-controller="ControllerName" />*@
+
 </div>

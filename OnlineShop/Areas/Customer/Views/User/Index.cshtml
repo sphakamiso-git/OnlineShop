@@ -1,0 +1,70 @@
+﻿@using OnlineShop.Models;
+@model IEnumerable<ApplicationUser>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">User List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-info"><i class="fas fa-plus"></i>&nbsp; New User</a>
+    </div>
+</div>
+<br />
+
+<div>
+    <table class="table table-stripped border">
+        <tr class="table-info">
+            <th>
+                Name
+            </th>
+            <th>
+                UserName
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.FirstName @item.LastName
+                </td>
+                <td>
+                    @item.UserName
+                </td>
+                <td>
+                    <partial name="_PartialView" model="@item.Id" />
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var save = '@TempData["Save "]'
+            if (save != '') {
+                alertify.success(save);
+            }
+
+           // var edit = '@TempData["edit"]'
+           // if (edit != '') {
+            //    alertify.success(edit);
+           // }
+           // var del = '@TempData["delete"]'
+           // if (del != '') {
+             //   alertify.error(del);
+           // }
+        })
+    </script>
+}
+

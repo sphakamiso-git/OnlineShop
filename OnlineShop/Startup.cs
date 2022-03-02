@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,8 @@ namespace OnlineShop
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddMvc(options => options.EnableEndpointRouting = false);
+            //Pagination
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 
         }
 
