@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OnlineShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    //[Authorize]
     public class ProductTypesController : Controller
     {
         private ApplicationDbContext _db; 
@@ -22,6 +22,7 @@ namespace OnlineShop.Areas.Admin.Controllers
         [AllowAnonymous]
         public IActionResult Index()
         {
+
             //var data = _db.ProductTypes.ToList();
             return View(_db.ProductTypes.ToList());
         }

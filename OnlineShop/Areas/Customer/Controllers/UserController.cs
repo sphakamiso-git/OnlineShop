@@ -14,10 +14,12 @@ namespace OnlineShop.Areas.Customer.Controllers
     {
         private ApplicationDbContext _db;
         UserManager<IdentityUser> _userManager;
+        RoleManager<IdentityRole> _roleManager;
 
-        public UserController(UserManager<IdentityUser> usermanager, ApplicationDbContext db)
+        public UserController(UserManager<IdentityUser> usermanager, ApplicationDbContext db, RoleManager<IdentityRole> roleManager)
         {
             _userManager = usermanager;
+            _roleManager = roleManager;
             _db = db;
         }
 
@@ -39,11 +41,18 @@ namespace OnlineShop.Areas.Customer.Controllers
                 var results = await _userManager.CreateAsync(user, user.PasswordHash);
                 if (results.Succeeded)
                 {
-                    var isSaveRole = await _userManager.AddToRoleAsync(user, "User");
-                    TempData["Save"] = "User created successfully";
-                    return RedirectToAction(nameof(Index));
+                    IdentityRole role = new IdentityRole();
+                    role.Name = "User";
+                    var isExist = await _roleManager.RoleExistsAsync(role.Name);
+                   if (isExist)
+                    {
+                        var isSaveRole = await _userManager.AddToRoleAsync(user, "User");
+                        TempData["Save"] = "User created successfully";
+                        return RedirectToAction(nameof(Index));
+                    }
 
                 }
+             
 
                 foreach (var error in results.Errors)
                 {
